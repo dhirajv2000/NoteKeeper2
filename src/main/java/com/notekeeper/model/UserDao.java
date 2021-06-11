@@ -68,7 +68,6 @@ public class UserDao {
 	}
 
 	public void update(List<Note> data) {
-		for (int i = 0; i < data.size(); i++) {
 			JSONArray jo = new JSONArray(data);
 			Connection con = getConnection();
 			HttpSession session = ServletActionContext.getRequest().getSession(false);
@@ -83,6 +82,42 @@ public class UserDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+	}
+	
+	public String readNote() {
+		Connection con = getConnection();
+		HttpSession session = ServletActionContext.getRequest().getSession(false);
+		String sql = "Select notes from userdb.user where iduser =?";
+		String notes = null;
+		try {
+			PreparedStatement ps = con.prepareCall(sql);
+			ps.setString(1, session.getAttribute("userid").toString());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			notes = rs.getString(1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return notes;
+	}
+	
+	public void clearNote() {
+		Connection con = getConnection();
+		HttpSession session = ServletActionContext.getRequest().getSession(false);
+		String sql = "update userdb.user set notes= null where iduser =?";
+		String status = "fail";
+		try {
+			PreparedStatement ps = con.prepareCall(sql);
+			ps.setString(1, session.getAttribute("userid").toString());
+			ps.executeUpdate();
+			status ="sucess";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(status);
 	}
 }

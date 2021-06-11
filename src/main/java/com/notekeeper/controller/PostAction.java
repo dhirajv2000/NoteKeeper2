@@ -12,9 +12,7 @@ public class PostAction extends ActionSupport {
 	private List<Note> data;
 	public String writeJSON() {
 		try {
-			System.out.println("hi");
 			JSONObject jo = new JSONObject(data);
-			System.out.println(jo);
 			UserDao ud = new UserDao();
 			ud.update(data);
 		} catch (Exception e) {

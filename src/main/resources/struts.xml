@@ -21,9 +21,18 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 			<result name="success">/logout.jsp</result>
 		</action>
 
-
 	</package>
 	
+	<package name="asda" extends="json-default" namespace="/">
+
+		<action name="getdata" class="com.notekeeper.controller.GetAction" method="readJSON">
+			<result name="SUCCESS" type="json"></result>
+		</action>
+		<action name="cleardata" class="com.notekeeper.controller.ClearAction" method="clearJSON">
+			<result name="SUCCESS" type="json"></result>
+		</action>
+		
+	</package>
 	<package name="asd" extends="json-default" namespace="/">
 		<interceptors>
 			<interceptor-stack name="defaultStack">
@@ -39,6 +48,7 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 			</interceptor-ref>
 			<result type="json" />
 		</action>
+	
 
 	</package>
 
