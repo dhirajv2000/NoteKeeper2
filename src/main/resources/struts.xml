@@ -23,5 +23,23 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 
 
 	</package>
+	
+	<package name="asd" extends="json-default" namespace="/">
+		<interceptors>
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="json">
+					<param name="enableSMD">true</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="writeJSON" class="com.notekeeper.controller.PostAction"
+			method="writeJSON">
+			<interceptor-ref name="json">
+				<param name="enableSMD">true</param>
+			</interceptor-ref>
+			<result type="json" />
+		</action>
+
+	</package>
 
 </struts>

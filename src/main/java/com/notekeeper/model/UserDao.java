@@ -5,6 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+import org.json.*;
+
+import com.notekeeper.model.*;
 
 public class UserDao {
 
@@ -19,10 +27,10 @@ public class UserDao {
 		}
 		return con;
 	}
-	
+
 	public String insert(UserBean user) {
 		Connection con = getConnection();
-		String sql = "Insert into userdb.user values(?,?,md5(?),?,?)";
+		String sql = "Insert into userdb.user values(?,?,md5(?),?,?,?)";
 		String result = "Data entered succesfully";
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
@@ -31,6 +39,7 @@ public class UserDao {
 			ps.setString(3, user.getPassword());
 			ps.setString(4, user.getEmail());
 			ps.setString(5, user.getPhone());
+			ps.setString(6, null);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -39,16 +48,16 @@ public class UserDao {
 		}
 		return result;
 	}
-	
+
 	public Boolean validate(UserBean user) {
 		Connection con = getConnection();
-		boolean status=false;
+		boolean status = false;
 		String sql = "select * from userdb.user where username =? and password = md5(?)";
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
 			ps.setString(1, user.getUname());
 			ps.setString(2, user.getPassword());
-			ResultSet rs = ps.executeQuery();  
+			ResultSet rs = ps.executeQuery();
 			status = rs.next();
 			user.setUserid(rs.getString(1));
 		} catch (SQLException e) {
@@ -56,5 +65,24 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return status;
+	}
+
+	public void update(List<Note> data) {
+		for (int i = 0; i < data.size(); i++) {
+			JSONArray jo = new JSONArray(data);
+			Connection con = getConnection();
+			HttpSession session = ServletActionContext.getRequest().getSession(false);
+			String sql = "update userdb.user set notes= CAST(? AS JSON) where iduser =? ";
+			try {
+				PreparedStatement ps = con.prepareCall(sql);
+				ps.setString(1, jo.toString());
+				ps.setString(2, session.getAttribute("userid").toString());
+				ps.executeUpdate();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

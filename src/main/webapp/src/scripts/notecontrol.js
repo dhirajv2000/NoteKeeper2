@@ -27,14 +27,14 @@ function NoteControl(noteView) {
         }
         if (note.content)
             wrapper.querySelector('.note-content').innerHTML = note.content;
-        if (note.font.bold)
+        /*if (note.font.bold)
             wrapper.querySelector('.note-content').classList.add('bold')
         if (note.font.italic)
             wrapper.querySelector('.note-content').classList.add('italic')
         if (note.font.underline)
             wrapper.querySelector('.note-content').classList.add('underline')
         if (note.font.strike)
-            wrapper.querySelector('.note-content').classList.add('strike')
+            wrapper.querySelector('.note-content').classList.add('strike')*/
         self.appendListeners(wrapper);
         grid.appendChild(wrapper)
     }

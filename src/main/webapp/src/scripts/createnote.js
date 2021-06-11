@@ -3,10 +3,10 @@ function CreateNote(id, title = '', content = '') {
     this.id = id;
     this.title = title;
     this.content = content;
-    this.font = {
+    /*this.font = {
         italic: false,
         bold: false,
         underline: false,
         strike: false
-    }
+    }*/
 }
