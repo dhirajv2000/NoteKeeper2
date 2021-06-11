@@ -22,7 +22,7 @@ public class UserDao {
 	
 	public String insert(UserBean user) {
 		Connection con = getConnection();
-		String sql = "insert into userdb.user values(?,?,md5(?),?,?)";
+		String sql = "Insert into userdb.user values(?,?,md5(?),?,?)";
 		String result = "Data entered succesfully";
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
@@ -50,6 +50,7 @@ public class UserDao {
 			ps.setString(2, user.getPassword());
 			ResultSet rs = ps.executeQuery();  
 			status = rs.next();
+			user.setUserid(rs.getString(1));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

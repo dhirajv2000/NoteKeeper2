@@ -6,7 +6,7 @@ public class CreateAction {
 	private String uname, password, email, phone;
 
 	public String execute() {
-		UserBean user = new UserBean(uname, password, email, phone);
+		UserBean user = new UserBean(uname, password, email, phone, null);
 		UserDao ud = new UserDao();
 		ud.insert(user);
 		return "Data entered succesfully";

@@ -2,17 +2,19 @@ package com.notekeeper.model;
 
 public class UserBean {
 	private String uname, password, email, phone;
+	private String userid;
 
 	public UserBean() {
 		super();
 	}
 	
-	public UserBean(String uname, String password, String email, String phone) {
+	public UserBean(String uname, String password, String email, String phone, String userid) {
 		super();
 		this.uname = uname;
 		this.password = password;
 		this.email = email;
 		this.phone = phone;
+		this.userid = userid;
 	}
 
 	public String getUname() {
@@ -46,6 +48,14 @@ public class UserBean {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	
 }

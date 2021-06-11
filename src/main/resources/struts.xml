@@ -16,6 +16,11 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 			<result name="Data entered succesfully">/accountCreated.jsp</result>
 		</action>
 
+		<action name="logout"
+			class="com.notekeeper.controller.LoginAction" method="logout">
+			<result name="success">/logout.jsp</result>
+		</action>
+
 
 	</package>
 
