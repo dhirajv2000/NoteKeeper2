@@ -9,6 +9,10 @@ import com.notekeeper.model.*;
 public class LoginAction implements SessionAware {
 	private String uname, password;
 	private SessionMap<String, Object> session;
+	
+	public SessionMap<String, Object> getSession() {
+		return session;
+	}
 
 	@Override
 	public void setSession(Map<String, Object> session) {

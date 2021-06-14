@@ -31,6 +31,9 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 		<action name="cleardata" class="com.notekeeper.controller.ClearAction" method="clearJSON">
 			<result name="SUCCESS" type="json"></result>
 		</action>
+		<action name="getsession" class="com.notekeeper.controller.SessionAction" method="execute">
+			<result name="SUCCESS" type="json"></result>
+		</action>
 		
 	</package>
 	<package name="asd" extends="json-default" namespace="/">

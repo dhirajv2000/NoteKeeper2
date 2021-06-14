@@ -1,18 +1,18 @@
 //Manages Operations on notes
 function NoteControl(noteView) {
     const self = this;
-    let clickID, noteContent, noteTitle, note, noteArray = [],
-        timer = null;
+    let clickID, noteContent, noteTitle, note, timer = null, noteArray=[];
     const grid = document.querySelector('.grid')
     //this.isUnsaved = false;
 
     //Adds a new note to local storage
     this.addNewNote = function () {
         let note = new CreateNote(generateID());
-        noteArray = self.getStorage();
-        noteArray.push(note);
-        self.setStorage(noteArray)
-        self.renderNote(note);
+       self.getStorage().then(function(noteArray) {
+        	noteArray.push(note);
+            self.setStorage(noteArray)
+            self.renderNote(note);
+        })  
     }
 
     //Displays the note on the page
@@ -40,16 +40,19 @@ function NoteControl(noteView) {
     }
 
     //Updates notes on click of save button
-    this.updateNote = function (id) {
-        clickID = id;
+    this.updateNote = function (id, noteArray) {
+        let clickID = id;
+
         const wrapper = document.getElementById(clickID);
-        noteTitle = wrapper.querySelector('.note-title')
+        let noteTitle = wrapper.querySelector('.note-title')
         noteContent = wrapper.querySelector('.note-content')
-        noteArray = self.getStorage();
-        note = noteArray.find(note => note.id == clickID);
-        note.title = noteTitle.innerHTML;
-        note.content = noteContent.innerHTML;
-        self.setStorage(noteArray)
+  
+        	  let clickID1 = clickID
+        	  let note = noteArray.find(note => note.id == clickID1);
+              note.title = noteTitle.innerHTML;
+              note.content = noteContent.innerHTML;
+       
+ 
         //self.isUnsaved = false;
     }
 
@@ -57,30 +60,37 @@ function NoteControl(noteView) {
     this.deleteNote = function () {
         clickID = self.getButtonId(this);
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
-        note = noteArray.find(note => note.id == clickID);
-        noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1)
-        self.setStorage(noteArray)
-        self.displayAll();
+        self.getStorage().then(function(noteArray) {
+            note = noteArray.find(note => note.id == clickID);
+            noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1)
+            self.setStorage(noteArray,self.displayAll)
+            //self.displayAll();
+        })  
     }
 
     //Displays all the notes
     this.displayAll = function () {
-        noteArray = self.getStorage();
-        grid.innerHTML = '';
-        noteArray.forEach(note => self.renderNote(note))
+        self.getStorage().then(function(noteArray) {
+        	 grid.innerHTML = '';
+             noteArray.forEach(note => self.renderNote(note))
+        })  
+       
     }
 
     //Saves all notes
     this.saveAll = function () {
-        noteArray = self.getStorage();
-        noteArray.forEach(note => self.updateNote(note.id))
+    		self.getStorage().then(function(noteArray) {
+        	  noteArray.forEach(note => {self.updateNote(note.id,noteArray); })
+        	  self.setStorage(noteArray)
+       })  
+      
     }
 
     //Clears all the notes and local storage.
     this.clearNotes = function () {
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
-        self.clearStorage();
-        self.displayAll();
+        self.clearStorage(self.displayAll);
+        //self.displayAll();
     }
 
     //returns the id of the button whic is clicked
@@ -91,9 +101,8 @@ function NoteControl(noteView) {
     //Detects changes and updates the note
     this.detectChange = function () {
         clearTimeout(timer)
-        let id = this.id
         timer = setTimeout(function () {
-            self.updateNote(id);
+            self.saveAll();
         }, 3000)
     }
 

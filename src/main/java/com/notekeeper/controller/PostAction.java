@@ -12,7 +12,6 @@ public class PostAction extends ActionSupport {
 	private List<Note> data;
 	public String writeJSON() {
 		try {
-			JSONObject jo = new JSONObject(data);
 			UserDao ud = new UserDao();
 			ud.update(data);
 		} catch (Exception e) {

@@ -118,6 +118,5 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(status);
 	}
 }
