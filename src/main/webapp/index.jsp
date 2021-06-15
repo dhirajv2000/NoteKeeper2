@@ -23,7 +23,6 @@
     <span><button class="button1 button4" id='logout-btn' style="margin-top: 50px;"  onclick="location.href='/NoteKeeper2/logout.action';">Logout</button></span>
     <div class='grid'>
     </div>
-    <script src="src/scripts/hello.js"></script>
     <script src="src/scripts/storagemanager.js"></script>
     <script src="src/scripts/utilityfunctions.js"></script>
     <script src="src/scripts/createnote.js"></script>

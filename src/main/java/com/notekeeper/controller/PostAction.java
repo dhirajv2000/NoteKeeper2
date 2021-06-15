@@ -12,8 +12,13 @@ public class PostAction extends ActionSupport {
 	private List<Note> data;
 	public String writeJSON() {
 		try {
+			String userID = data.get(0).getId(); 
+			System.out.println(data);
+			data.remove(0);
+			System.out.println(data);
 			UserDao ud = new UserDao();
-			ud.update(data);
+			ud.update(data, userID);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -8,15 +8,21 @@ const noteView = new NoteView;
 NoteControl.prototype = Object.create(StorageManager.prototype);
 NoteControl.prototype.constructor = NoteControl;
 
+
 //Create NoteControl Object
 const noteControl = new NoteControl(noteView);
+fetchSessionId().then(function(response){
+	id = response;
+})
+var id;
+
 
 //Adding Event listeners
 document.querySelector('#add-btn').addEventListener('click', noteControl.addNewNote)
 document.querySelector('#clear-btn').addEventListener('click', noteControl.clearNotes)
 document.querySelector('#save-btn').addEventListener('click', noteControl.saveAll)
 document.addEventListener('DOMContentLoaded', noteControl.displayAll)
-document.addEventListener('DOMContentLoaded', fetchSessionId);
+//document.addEventListener('DOMContentLoaded', fetchSessionId);
 
 
 

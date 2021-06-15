@@ -2,12 +2,13 @@ package com.notekeeper.controller;
 
 import java.util.List;
 
+import com.notekeeper.model.Note;
 import com.notekeeper.model.UserDao;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ClearAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
-	private String dataList = null;
+	private List<Note> data;
 
 	public String clearJSON() throws Exception {
 		UserDao ud = new UserDao();
@@ -15,13 +16,17 @@ public class ClearAction extends ActionSupport {
 		return "SUCCESS";
 	}
 
-	public String getDataList() {
-		return dataList;
+	public List<Note> getData() {
+		return data;
 	}
 
-	public void setDataList(String dataList) {
-		this.dataList = dataList;
+	public void setData(List<Note> data) {
+		this.data = data;
 	}
+
+	
+
+	
 }
 
 

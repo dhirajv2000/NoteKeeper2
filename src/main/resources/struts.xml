@@ -28,9 +28,7 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 		<action name="getdata" class="com.notekeeper.controller.GetAction" method="readJSON">
 			<result name="SUCCESS" type="json"></result>
 		</action>
-		<action name="cleardata" class="com.notekeeper.controller.ClearAction" method="clearJSON">
-			<result name="SUCCESS" type="json"></result>
-		</action>
+		
 		<action name="getsession" class="com.notekeeper.controller.SessionAction" method="execute">
 			<result name="SUCCESS" type="json"></result>
 		</action>
@@ -51,8 +49,12 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 			</interceptor-ref>
 			<result type="json" />
 		</action>
-	
-
+		<action name="cleardata" class="com.notekeeper.controller.ClearAction" method="clearJSON">
+		<interceptor-ref name="json">
+				<param name="enableSMD">true</param>
+			</interceptor-ref>
+			<result name="SUCCESS" type="json"></result> 
+		</action>
 	</package>
 
 </struts>
