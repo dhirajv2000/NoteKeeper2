@@ -9,6 +9,7 @@ StorageManager.prototype.setStorage = function (notesList, displayAll = null) {
 	userid['id'] = sessionid.toString();
 	notesList.unshift(userid);
 	dataObj["data"] = notesList;
+	console.log(dataObj)
 	var request = new XMLHttpRequest();   // new HttpRequest instance
 	request.open("POST", "/NoteKeeper2/setstorage.action");
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

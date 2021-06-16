@@ -13,11 +13,16 @@ public class SetStorageAction extends ActionSupport {
 
 	public String setStorage() {
 		try {
+			String noteID, noteContent, noteTitle;
 			String userID = data.get(0).getId();
 			data.remove(0);
 			UserDao ud = new UserDao();
-			ud.setNotes(data, userID); 
-
+			for (int i = 0; i < data.size(); i++) {
+				noteID = data.get(i).getId();
+				noteTitle = data.get(i).getTitle();
+				noteContent = data.get(i).getContent();
+				ud.setNotes(noteID, noteTitle, noteContent, userID);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

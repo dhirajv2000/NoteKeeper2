@@ -3,6 +3,8 @@ package com.notekeeper.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+
 import com.notekeeper.model.UserDao;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -14,6 +16,7 @@ public class GetStorageAction extends ActionSupport {
 	public String getStorage() throws Exception {
 		UserDao ud = new UserDao();
 		dataList = ud.getNotes(id);
+		JSONArray ja = new JSONArray(dataList);
 		return "SUCCESS";
 	}
 

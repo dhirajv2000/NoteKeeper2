@@ -1,7 +1,7 @@
 //Manages Operations on notes
 function NoteControl(noteView) {
     const self = this;
-    let clickID, noteContent, noteTitle, note, timer = null, noteArray=[];
+    let clickID, noteContent, noteTitle, note, timer = null;
     const grid = document.querySelector('.grid')
     //this.isUnsaved = false;
 
