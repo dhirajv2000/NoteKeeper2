@@ -12,16 +12,17 @@ NoteControl.prototype.constructor = NoteControl;
 //Create NoteControl Object
 const noteControl = new NoteControl(noteView);
 fetchSessionId().then(function(response){
-	id = response;
+	sessionid = response;
+	noteControl.displayAll();
 })
-var id;
+var sessionid;
 
 
 //Adding Event listeners
 document.querySelector('#add-btn').addEventListener('click', noteControl.addNewNote)
 document.querySelector('#clear-btn').addEventListener('click', noteControl.clearNotes)
 document.querySelector('#save-btn').addEventListener('click', noteControl.saveAll)
-document.addEventListener('DOMContentLoaded', noteControl.displayAll)
+//document.addEventListener('DOMContentLoaded', noteControl.displayAll)
 //document.addEventListener('DOMContentLoaded', fetchSessionId);
 
 

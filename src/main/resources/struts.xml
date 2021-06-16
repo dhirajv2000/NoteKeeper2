@@ -25,13 +25,19 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 	
 	<package name="asda" extends="json-default" namespace="/">
 
-		<action name="getdata" class="com.notekeeper.controller.GetAction" method="readJSON">
+		<action name="getstorage" class="com.notekeeper.controller.GetStorageAction" method="getStorage">
 			<result name="SUCCESS" type="json"></result>
 		</action>
 		
 		<action name="getsession" class="com.notekeeper.controller.SessionAction" method="execute">
 			<result name="SUCCESS" type="json"></result>
 		</action>
+		
+		<action name="clearstorage" class="com.notekeeper.controller.ClearAction" method="clearStorage">
+			<result name="SUCCESS" type="json"></result>
+		</action>
+		
+		
 		
 	</package>
 	<package name="asd" extends="json-default" namespace="/">
@@ -42,8 +48,8 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 				</interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		<action name="writeJSON" class="com.notekeeper.controller.PostAction"
-			method="writeJSON">
+		<action name="setstorage" class="com.notekeeper.controller.SetStorageAction"
+			method="setStorage">
 			<interceptor-ref name="json">
 				<param name="enableSMD">true</param>
 			</interceptor-ref>

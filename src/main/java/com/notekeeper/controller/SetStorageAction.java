@@ -7,18 +7,17 @@ import org.json.*;
 import com.notekeeper.model.*;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class PostAction extends ActionSupport {
+public class SetStorageAction extends ActionSupport {
 	private static final long serialVersionUID = -6765991741441442190L;
 	private List<Note> data;
-	public String writeJSON() {
+
+	public String setStorage() {
 		try {
-			String userID = data.get(0).getId(); 
-			System.out.println(data);
+			String userID = data.get(0).getId();
 			data.remove(0);
-			System.out.println(data);
 			UserDao ud = new UserDao();
-			ud.update(data, userID);
-			
+			ud.setNotes(data, userID); 
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

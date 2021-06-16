@@ -6,15 +6,14 @@ StorageManager.prototype.setStorage = function (notesList, displayAll = null) {
 	return new Promise(function(resolve, reject){
 	let dataObj = {data:""};
 	let userid = {id:""};
-	userid['id'] = id.toString();
+	userid['id'] = sessionid.toString();
 	notesList.unshift(userid);
 	dataObj["data"] = notesList;
-	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-	var theUrl = "/NoteKeeper2/writeJSON.action";
-	xmlhttp.open("POST", theUrl);
-	xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	xmlhttp.send(JSON.stringify(dataObj));
-	xmlhttp.onload = function(){
+	var request = new XMLHttpRequest();   // new HttpRequest instance
+	request.open("POST", "/NoteKeeper2/setstorage.action");
+	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	request.send(JSON.stringify(dataObj));
+	request.onload = function(){
 		if(displayAll){
 			displayAll();
 		}
@@ -34,7 +33,7 @@ StorageManager.prototype.getStorage = function () {
 		      resolve( notesList != null ? JSON.parse(notesList) : []);
 		    };
 		    xhr.onerror = reject;
-		    xhr.open('GET', '/NoteKeeper2/getdata.action');
+		    xhr.open('GET', '/NoteKeeper2/getstorage.action?id='+sessionid);
 		    xhr.send();
 		  });
 }
@@ -44,9 +43,9 @@ StorageManager.prototype.getStorage = function () {
 StorageManager.prototype.clearStorage = function (displayAll) {
 	return new Promise(function(resolve, reject) {
 		var request = new XMLHttpRequest();
-		request.open("POST", '/NoteKeeper2/cleardata.action');
+		request.open("GET", '/NoteKeeper2/clearstorage.action?userID='+sessionid);
 		let dataObj = {data:[{id:'5'}]};
-		request.send(JSON.stringify(dataObj));
+		request.send();
 		request.onload = function(){
 			displayAll()
 		}

@@ -67,21 +67,7 @@ public class UserDao {
 		return status;
 	}
 
-	public void update(List<Note> data, String userid) {
-			/*JSONArray jo = new JSONArray(data);
-			Connection con = getConnection();
-			HttpSession session = ServletActionContext.getRequest().getSession(false);
-			String sql = "update userdb.user set notes= CAST(? AS JSON) where iduser =? ";
-			try {
-				PreparedStatement ps = con.prepareCall(sql);
-				ps.setString(1, jo.toString());
-				ps.setString(2, session.getAttribute("userid").toString());
-				ps.executeUpdate();
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+	public void setNotes(List<Note> data, String userID) {
 		JSONArray jo = new JSONArray(data);
 		Connection con = getConnection();
 		String sql;
@@ -90,21 +76,19 @@ public class UserDao {
 			HttpSession session = ServletActionContext.getRequest().getSession(false);
 			sql = "select * from userdb.notes where userid = ? ";
 			ps = con.prepareCall(sql);
-			ps.setString(1, userid);
+			ps.setString(1, userID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
-				System.out.println("hi");
 				sql = "update userdb.notes set notes= CAST(? AS JSON) where userid =?";
 				ps = con.prepareStatement(sql);
 				ps.setString(1, jo.toString());
-				ps.setString(2, session.getAttribute("userid").toString());
+				ps.setString(2, userID);
 				ps.executeUpdate();
 			} else {
-				sql = "insert into userdb.notes values(?,?) ";
+				sql = "insert into userdb.notes values(?,CAST(? AS JSOn)) ";
 				ps = con.prepareStatement(sql);
-				System.out.println("bye");
-				ps.setString(1, session.getAttribute("userid").toString());
-				ps.setString(2, null);
+				ps.setString(1, userID);
+				ps.setString(2, jo.toString());
 				ps.executeUpdate();
 			}
 
@@ -114,14 +98,14 @@ public class UserDao {
 		}
 	}
 	
-	public String readNote() {
+	public String getNotes(String userID) {
 		Connection con = getConnection();
 		HttpSession session = ServletActionContext.getRequest().getSession(false);
 		String sql = "Select notes from userdb.notes where userid =?";
 		String notes = null;
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
-			ps.setString(1, session.getAttribute("userid").toString());
+			ps.setString(1, userID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			notes = rs.getString(1);
@@ -133,14 +117,14 @@ public class UserDao {
 		return notes;
 	}
 	
-	public void clearNote() {
+	public void clearNotes(String userID) {
 		Connection con = getConnection();
 		HttpSession session = ServletActionContext.getRequest().getSession(false);
 		String sql = "update userdb.notes set notes= null where userid =?";
 		String status = "fail";
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
-			ps.setString(1, session.getAttribute("userid").toString());
+			ps.setString(1, userID);
 			ps.executeUpdate();
 			status ="sucess";
 		} catch (SQLException e) {

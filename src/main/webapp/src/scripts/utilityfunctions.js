@@ -18,12 +18,11 @@ function generateID() {
   return Math.random().toString(36).substr(2, 6)
 }
 
-var id;function fetchSessionId() {
+function fetchSessionId() {
 	return new Promise(function(resolve, reject) {
 	    var xhr = new XMLHttpRequest();
 	    xhr.onload = function() {
 	     let sessionId = JSON.parse(this.response)
-	     myr = sessionId;
 	     resolve( sessionId['sessionId']);
 	    };
 	    xhr.onerror = reject;
