@@ -4,16 +4,33 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <!-- config file for the Struts 2.0 Hello World Tutorial -->
 <struts>
 	<package name="default" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor class="com.notekeeper.model.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
 
+		<global-results>
+			<result name="login">/login.html</result>
+		</global-results>
 		<action name="login"
 			class="com.notekeeper.controller.LoginAction" method="login">
-			<result name="success">/index.jsp</result>
+			          
+			<result name="success" type ="redirect">indexaction.action</result>
 			<result name="fail">/loginError.jsp</result>
 		</action>
 
 		<action name="createuser"
 			class="com.notekeeper.controller.CreateAction" method="execute">
 			<result name="Data entered succesfully">/accountCreated.jsp</result>
+		</action>
+		<action name="indexaction"
+			class="com.notekeeper.controller.LoginAction" method="index">
+			<interceptor-ref name="loginStack"/>
+			<result name="success">/WEB-INF/index.jsp</result>
 		</action>
 
 		<action name="logout"

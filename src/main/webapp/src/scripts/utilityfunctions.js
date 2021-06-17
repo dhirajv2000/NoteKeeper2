@@ -18,17 +18,47 @@ function generateID() {
   return Math.random().toString(36).substr(2, 6)
 }
 
-function fetchSessionId() {
+function fetchSessionDetails() {
 	return new Promise(function(resolve, reject) {
 	    var xhr = new XMLHttpRequest();
 	    xhr.onload = function() {
 	     let sessionId = JSON.parse(this.response)
-	     resolve( sessionId['sessionId']);
+	     resolve(sessionId['sessionDetails']);
+	     //resolve( sessionId['sessionId']);
 	    };
 	    xhr.onerror = reject;
 	    xhr.open('GET', '/NoteKeeper2/getsession.action');
 	    xhr.send();
 	  });
+}
+
+function intialiseSessionDetails() {
+	fetchSessionDetails().then(function(response){
+		sessionid = response[0];
+		sessionuser = response[1];
+		//localStorage.setItem('sessionid', sessionid)
+		noteControl.displayAll();
+		document.getElementById('usernameHeader').innerHTML = "Hello, " + sessionuser;
+	})
+}
+var sessionid;
+var sessionuser;
+
+/*function doLogout() {
+	location.href='/NoteKeeper2/logout.action'
+}*/
+
+function intialiseBroadcast() {
+	document.querySelector('#logout-btn').addEventListener('click', e => {
+		location.href='/NoteKeeper2/logout.action'
+		authChannel.postMessage({action:'logout'});
+	});
+	
+	authChannel.onmessage = function(e) {
+		if(e.data.action === 'logout'){
+			location.href='/NoteKeeper2/logout.action'
+		}
+	}
 }
 	
 

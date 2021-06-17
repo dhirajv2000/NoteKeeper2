@@ -18,7 +18,11 @@ public class LoginAction implements SessionAware {
 	public void setSession(Map<String, Object> session) {
 		this.session = (SessionMap) session;
 	}
-
+	
+	public String index() {
+		return "success";
+	}
+	
 	public String login() {
 		UserBean user = new UserBean(uname, password, null, null, null);
 		UserDao ud = new UserDao();
@@ -26,6 +30,7 @@ public class LoginAction implements SessionAware {
 		if (ud.validate(user)) {
 			result = "success";
 			session.put("userid", user.getUserid());
+			session.put("username", user.getUname());
 		} else {
 			result = "fail";
 		}

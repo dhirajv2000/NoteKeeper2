@@ -16,11 +16,11 @@
 </head>
 
 <body>
-    <h1>Hello, <s:property value="uname" /> !!</h1>
+    <h1 id="usernameHeader">Hello, <s:property value="uname" /> !!</h1>
     <span><button class="button1 button4" id='add-btn' style="margin-top: 50px;">New Note</button></span>
     <span><button class="button1 button4" id='save-btn' style="margin-top: 50px;">Save All</button></span>
     <span><button class="button1 button4" id='clear-btn' style="margin-top: 50px;">Clear All</button></span>
-    <span><button class="button1 button4" id='logout-btn' style="margin-top: 50px;"  onclick="location.href='/NoteKeeper2/logout.action';">Logout</button></span>
+    <span><button class="button1 button4" id='logout-btn' style="margin-top: 50px;">Logout</button></span>
     <div class='grid'>
     </div>
     <script src="src/scripts/storagemanager.js"></script>
