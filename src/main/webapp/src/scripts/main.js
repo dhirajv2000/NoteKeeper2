@@ -12,12 +12,15 @@ NoteControl.prototype.constructor = NoteControl;
 //Create NoteControl Object
 const noteControl = new NoteControl(noteView);
 
+//Create SessionManager object
+const sessionManager = new SessionManager();
+
 //Get details about the user from server
-intialiseSessionDetails();
+sessionManager.intialiseSessionDetails();
 
 //Establish common BroadcastChannel amongst tabs
 const authChannel = new BroadcastChannel('login-state');
-intialiseBroadcast();
+sessionManager.intialiseBroadcast();
 
 //Adding Event listeners
 document.querySelector('#add-btn').addEventListener('click', noteControl.addNewNote)

@@ -1,21 +1,25 @@
 //Manages Operations on notes
 function NoteControl(noteView) {
     const self = this;
-    let clickID, noteContent, noteTitle, note, timer = null;
+    let clickID, noteContent, noteTitle, note, timer = null,
+        noteArray;
     const grid = document.querySelector('.grid')
-    //this.isUnsaved = false;
 
-    //Adds a new note to local storage
+    this.getNoteArray = function () {
+        self.getNotes().then(function (notesList) {
+            noteArray = notesList != null ? JSON.parse(notesList) : [];
+            self.displayAll();
+        })
+    }
+    // Adds a new note to local storage
     this.addNewNote = function () {
         let note = new CreateNote(generateID());
-       self.getStorage().then(function(noteArray) {
-        	noteArray.push(note);
-            self.setStorage(noteArray)
-            self.renderNote(note);
-        })  
+        noteArray.push(note);
+        self.saveNotes(noteArray)
+        self.renderNote(note);
     }
 
-    //Displays the note on the page
+    // Displays the note on the page
     this.renderNote = function (note) {
         let tempelate = getTemplate();
         const wrapper = document.createElement('div');
@@ -27,78 +31,60 @@ function NoteControl(noteView) {
         }
         if (note.content)
             wrapper.querySelector('.note-content').innerHTML = note.content;
-        /*if (note.font.bold)
-            wrapper.querySelector('.note-content').classList.add('bold')
-        if (note.font.italic)
-            wrapper.querySelector('.note-content').classList.add('italic')
-        if (note.font.underline)
-            wrapper.querySelector('.note-content').classList.add('underline')
-        if (note.font.strike)
-            wrapper.querySelector('.note-content').classList.add('strike')*/
         self.appendListeners(wrapper);
         grid.appendChild(wrapper)
     }
 
-    //Updates notes on click of save button
-    this.updateNote = function (id, noteArray) {
+    // Updates notes on click of save button
+    this.updateNote = function (id) {
         let clickID = id;
-
         const wrapper = document.getElementById(clickID);
         let noteTitle = wrapper.querySelector('.note-title')
         noteContent = wrapper.querySelector('.note-content')
-  
-        	  let clickID1 = clickID
-        	  let note = noteArray.find(note => note.id == clickID1);
-              note.title = noteTitle.innerHTML;
-              note.content = noteContent.innerHTML;
-       
- 
-        //self.isUnsaved = false;
+        let clickID1 = clickID
+        let note = noteArray.find(note => note.id == clickID1);
+        note.title = noteTitle.innerHTML;
+        note.content = noteContent.innerHTML;
     }
 
-    //Deletes a note and updates local storage
+    // Deletes a note and updates local storage
     this.deleteNote = function () {
         clickID = self.getButtonId(this);
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
-        self.getStorage().then(function(noteArray) {
-            note = noteArray.find(note => note.id == clickID);
-            noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1)
-            self.setStorage(noteArray,self.displayAll)
-            //self.displayAll();
-        })  
+        note = noteArray.find(note => note.id == clickID);
+        let deletedNote = noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1);
+        self.deleteSelectedNote(deletedNote, self.displayAll)
     }
 
-    //Displays all the notes
+    // Displays all the notes
     this.displayAll = function () {
-        self.getStorage().then(function(noteArray) {
-        	 grid.innerHTML = '';
-             noteArray.forEach(note => self.renderNote(note))
-        })  
-       
+        grid.innerHTML = '';
+        noteArray.forEach(note => self.renderNote(note))
     }
 
-    //Saves all notes
+    // Saves all notes
     this.saveAll = function () {
-    		self.getStorage().then(function(noteArray) {
-        	  noteArray.forEach(note => {self.updateNote(note.id,noteArray); })
-        	  self.setStorage(noteArray)
-       })  
-      
+        console.log(noteArray)
+        noteArray.forEach(note => {
+            self.updateNote(note.id);
+        })
+        console.log(noteArray)
+        self.saveNotes(noteArray)
     }
 
-    //Clears all the notes and local storage.
+    // Clears all the notes and local storage.
     this.clearNotes = function () {
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
-        self.clearStorage(self.displayAll);
-        //self.displayAll();
+        noteArray = [];
+        self.clearAllNotes(self.displayAll);
     }
 
-    //returns the id of the button whic is clicked
+    // returns the id of the button whic is clicked
     this.getButtonId = function (node) {
         return node.parentNode.parentNode.id;
     }
 
-    //Detects changes and updates the note
+    // Detects changes and updates the note
     this.detectChange = function () {
         clearTimeout(timer)
         timer = setTimeout(function () {
@@ -106,7 +92,7 @@ function NoteControl(noteView) {
         }, 3000)
     }
 
-    //appends event listeners to a new note object
+    // appends event listeners to a new note object
     this.appendListeners = function (wrapper) {
 
         let boldButton = wrapper.querySelector('.note-btns').querySelector('#bold-btn')
@@ -139,11 +125,5 @@ function NoteControl(noteView) {
 
         wrapper.addEventListener('input', self.detectChange)
 
-
-        //wrapper.querySelector('.note-title').addEventListener('focusin', noteView.clearPlaceholder)
-        //wrapper.querySelector('.note-title').addEventListener('focusout', noteView.addPlaceholder)
-
     }
-
-
 }

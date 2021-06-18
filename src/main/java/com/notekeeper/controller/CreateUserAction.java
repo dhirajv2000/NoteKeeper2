@@ -2,7 +2,7 @@ package com.notekeeper.controller;
 
 import com.notekeeper.model.*;
 
-public class CreateAction {
+public class CreateUserAction {
 	private String uname, password, email, phone;
 
 	public String execute() {

@@ -26,7 +26,6 @@ public class LoginInterceptor implements Interceptor {
 
 		if (session == null
 				|| session.get("userid") == null) {
-			System.out.println("1");
 			return "login";
 		} else {
 			if (!((String) session.get("userid")).equals(null)) {

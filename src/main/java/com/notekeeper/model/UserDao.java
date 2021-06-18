@@ -69,38 +69,7 @@ public class UserDao {
 		return status;
 	}
 
-	/*public void setNotes(List<Note> data, String userID) {
-		JSONArray jo = new JSONArray(data);
-		Connection con = getConnection();
-		String sql;
-		PreparedStatement ps;
-		try {
-			HttpSession session = ServletActionContext.getRequest().getSession(false);
-			sql = "select * from userdb.notes where userid = ? ";
-			ps = con.prepareCall(sql);
-			ps.setString(1, userID);
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				sql = "update userdb.notes set notes= CAST(? AS JSON) where userid =?";
-				ps = con.prepareStatement(sql);
-				ps.setString(1, jo.toString());
-				ps.setString(2, userID);
-				ps.executeUpdate();
-			} else {
-				sql = "insert into userdb.notes values(?,CAST(? AS JSOn)) ";
-				ps = con.prepareStatement(sql);
-				ps.setString(1, userID);
-				ps.setString(2, jo.toString());
-				ps.executeUpdate();
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-	
-	public void setNotes(String noteID, String noteTitle, String noteContent, String userID) {
+	public void saveNotes(String noteID, String noteTitle, String noteContent, String userID) {
 		Connection con = getConnection();
 		String sql;
 		PreparedStatement ps;
@@ -109,7 +78,7 @@ public class UserDao {
 			ps = con.prepareCall(sql);
 			ps.setString(1, noteID);
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				sql = "update userdb.notes set noteTitle =?, noteContent =? where noteID=?";
 				ps = con.prepareStatement(sql);
 				ps.setString(1, noteTitle);
@@ -136,51 +105,33 @@ public class UserDao {
 			e.printStackTrace();
 		}
 	}
-	
-	/*public String getNotes(String userID) {
-		Connection con = getConnection();
-		HttpSession session = ServletActionContext.getRequest().getSession(false);
-		String sql = "Select notes from userdb.notes where userid =?";
-		String notes = null;
-		try {
-			PreparedStatement ps = con.prepareCall(sql);
-			ps.setString(1, userID);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			notes = rs.getString(1);
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return notes;
-	}*/
 	public String getNotes(String userID) {
 		ArrayList<Note> notelist = new ArrayList<Note>();
 		Connection con = getConnection();
 		HttpSession session = ServletActionContext.getRequest().getSession(false);
 		String sql = "Select userdb.notes.noteID, userdb.notes.noteTitle, userdb.notes.noteContent "
 				+ "from userdb.notes inner join userdb.privilege on userdb.notes.noteID = userdb.privilege.noteID  "
-				+ "where userdb.privilege.userID = ?";
+				+ "where userdb.privilege.userID = ? order by userdb.notes.insertTime";
 		JSONArray jsonArray = new JSONArray();
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
 			ps.setString(1, userID);
 			ResultSet rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
-			while(rs.next()) {
-				
+			while (rs.next()) {
+
 				Note note = new Note();
 				note.setId(rs.getString("noteID"));
 				note.setTitle(rs.getString("noteTitle"));
 				note.setContent(rs.getString("noteContent"));
 				notelist.add(note);
-				
+
 			}
-			
-			for (int i=0; i < notelist.size(); i++) {
-		        jsonArray.put(notelist.get(i).getJSONObject());
-		}
+
+			for (int i = 0; i < notelist.size(); i++) {
+				jsonArray.put(notelist.get(i).getJSONObject());
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -188,30 +139,28 @@ public class UserDao {
 		return jsonArray.toString(0);
 	}
 	
-	/*public void clearNotes(String userID) {
+	public void deleteNote(String userID, String noteID) {
 		Connection con = getConnection();
-		HttpSession session = ServletActionContext.getRequest().getSession(false);
-		String sql = "update userdb.notes set notes= null where userid =?";
-		String status = "fail";
 		try {
+			String sql = "delete userdb.notes, userdb.privilege from userdb.notes inner join userdb.privilege"
+					+ " on userdb.notes.noteID = userdb.privilege.noteID where userdb.privilege.noteID = ?";
 			PreparedStatement ps = con.prepareCall(sql);
-			ps.setString(1, userID);
+			ps.setString(1, noteID);
 			ps.executeUpdate();
-			status ="sucess";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
+	
 	public void clearNotes(String userID) {
 		Connection con = getConnection();
 		try {
-			String sql1 = "delete userdb.notes, userdb.privilege "
-					+ " from userdb.notes inner join userdb.privilege"
+			String sql = "delete userdb.notes, userdb.privilege " + " from userdb.notes inner join userdb.privilege"
 					+ " on userdb.notes.noteID = userdb.privilege.noteID where userdb.privilege.userID = ?";
-			PreparedStatement ps1 = con.prepareCall(sql1);
-			ps1.setString(1, userID);
-			ps1.executeUpdate();
+			PreparedStatement ps = con.prepareCall(sql);
+			ps.setString(1, userID);
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

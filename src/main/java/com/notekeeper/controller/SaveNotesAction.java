@@ -7,11 +7,11 @@ import org.json.*;
 import com.notekeeper.model.*;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class SetStorageAction extends ActionSupport {
+public class SaveNotesAction extends ActionSupport {
 	private static final long serialVersionUID = -6765991741441442190L;
 	private List<Note> data;
 
-	public String setStorage() {
+	public String saveNotes() {
 		try {
 			String noteID, noteContent, noteTitle;
 			String userID = data.get(0).getId();
@@ -21,7 +21,7 @@ public class SetStorageAction extends ActionSupport {
 				noteID = data.get(i).getId();
 				noteTitle = data.get(i).getTitle();
 				noteContent = data.get(i).getContent();
-				ud.setNotes(noteID, noteTitle, noteContent, userID);
+				ud.saveNotes(noteID, noteTitle, noteContent, userID);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

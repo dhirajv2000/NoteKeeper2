@@ -25,6 +25,7 @@
     </div>
     <script src="src/scripts/storagemanager.js"></script>
     <script src="src/scripts/utilityfunctions.js"></script>
+    <script src="src/scripts/sessionmanager.js"></script>
     <script src="src/scripts/createnote.js"></script>
     <script src="src/scripts/noteview.js"></script>
     <script src="src/scripts/notecontrol.js"></script>

@@ -8,12 +8,12 @@ import org.json.JSONArray;
 import com.notekeeper.model.UserDao;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class GetStorageAction extends ActionSupport {
+public class GetNotesAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private String dataList = null;
 	private String id;
 	
-	public String getStorage() throws Exception {
+	public String getNotes() throws Exception {
 		UserDao ud = new UserDao();
 		dataList = ud.getNotes(id);
 		JSONArray ja = new JSONArray(dataList);
