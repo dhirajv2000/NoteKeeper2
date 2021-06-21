@@ -2,20 +2,35 @@
 function NoteControl(noteView) {
     const self = this;
     let clickID, noteContent, noteTitle, note, timer = null,
-        noteArray;
+        noteArray, updateArray =[];
     const grid = document.querySelector('.grid')
 
-    this.getNoteArray = function () {
+    this.loadNoteArray = function () {
         self.getNotes().then(function (notesList) {
             noteArray = notesList != null ? JSON.parse(notesList) : [];
             self.displayAll();
         })
+    }
+    
+    this.setNoteArray = function (updatedNoteArray) {
+    	noteArray = Object.assign([], updatedNoteArray);
+    	self.displayAll();
+    }
+    
+    this.updateChannel = function () {
+    	 let channelObj = {
+             	action: 'update',
+             	updatedNoteArray: null
+             }
+         channelObj.updatedNoteArray = noteArray;
+         authChannel.postMessage(channelObj);
     }
     // Adds a new note to local storage
     this.addNewNote = function () {
         let note = new CreateNote(generateID());
         noteArray.push(note);
         self.saveNotes(noteArray)
+        self.updateChannel();
         self.renderNote(note);
     }
 
@@ -38,13 +53,21 @@ function NoteControl(noteView) {
     // Updates notes on click of save button
     this.updateNote = function (id) {
         let clickID = id;
+        let isChanged = false;
         const wrapper = document.getElementById(clickID);
         let noteTitle = wrapper.querySelector('.note-title')
         noteContent = wrapper.querySelector('.note-content')
         let clickID1 = clickID
         let note = noteArray.find(note => note.id == clickID1);
-        note.title = noteTitle.innerHTML;
-        note.content = noteContent.innerHTML;
+        if(note.title !== noteTitle.innerHTML){
+        	isChanged = true;
+        	note.title = noteTitle.innerHTML;
+        }
+        if(note.content !== noteContent.innerHTML){
+        	isChanged = true;
+        	note.content = noteContent.innerHTML;
+        }
+        if(isChanged) updateArray.push(note);
     }
 
     // Deletes a note and updates local storage
@@ -54,6 +77,7 @@ function NoteControl(noteView) {
         note = noteArray.find(note => note.id == clickID);
         let deletedNote = noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1);
         self.deleteSelectedNote(deletedNote, self.displayAll)
+        self.updateChannel();
     }
 
     // Displays all the notes
@@ -64,12 +88,12 @@ function NoteControl(noteView) {
 
     // Saves all notes
     this.saveAll = function () {
-        console.log(noteArray)
         noteArray.forEach(note => {
-            self.updateNote(note.id);
+            self.updateNote(note.id); 
         })
-        console.log(noteArray)
-        self.saveNotes(noteArray)
+        if(updateArray.length !=0) self.saveNotes(updateArray);
+        updateArray = [];
+        self.updateChannel();
     }
 
     // Clears all the notes and local storage.
@@ -77,6 +101,7 @@ function NoteControl(noteView) {
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
         noteArray = [];
         self.clearAllNotes(self.displayAll);
+        self.updateChannel();
     }
 
     // returns the id of the button whic is clicked

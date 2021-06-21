@@ -35,11 +35,13 @@ function SessionManager() {
         authChannel.onmessage = function (e) {
             if (e.data.action === 'logout') {
                 location.href = '/NoteKeeper2/logout.action'
+            }else if(e.data.action === 'update') {
+                noteControl.setNoteArray(e.data.updatedNoteArray);
             }
         }
     }
 
     this.loadUserContent = function () {
-        noteControl.getNoteArray();
+        noteControl.loadNoteArray();
     }
 }
