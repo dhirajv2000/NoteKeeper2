@@ -10,7 +10,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class SessionAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private List<String> sessionDetails = null;
-	//private String sessionId = null;
 
 	public String execute() throws Exception {
 		HttpSession session = ServletActionContext.getRequest().getSession(false);

@@ -16,12 +16,11 @@ public class SaveNotesAction extends ActionSupport {
 			String noteID, noteContent, noteTitle;
 			String userID = data.get(0).getId();
 			data.remove(0);
-			UserDao ud = new UserDao();
 			for (int i = 0; i < data.size(); i++) {
 				noteID = data.get(i).getId();
 				noteTitle = data.get(i).getTitle();
 				noteContent = data.get(i).getContent();
-				ud.saveNotes(noteID, noteTitle, noteContent, userID);
+				UserDao.saveNotes(noteID, noteTitle, noteContent, userID);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

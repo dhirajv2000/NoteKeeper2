@@ -29,7 +29,9 @@ function NoteControl(noteView) {
     this.addNewNote = function () {
         let note = new CreateNote(generateID());
         noteArray.push(note);
-        self.saveNotes(noteArray)
+        updateArray.push(note)
+        self.saveNotes(updateArray)
+        updateArray = []
         self.updateChannel();
         self.renderNote(note);
     }

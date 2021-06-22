@@ -18,7 +18,7 @@ import com.notekeeper.model.*;
 
 public class UserDao {
 
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		Connection con = null;
 		GetConfig gc = new GetConfig();
 		try {
@@ -30,7 +30,7 @@ public class UserDao {
 		return con;
 	}
 
-	public String insert(UserBean user) {
+	public static String insert(UserBean user) {
 		Connection con = getConnection();
 		String sql = "Insert into userdb.user values(?,?,md5(?),?,?,?)";
 		String result = "Data entered succesfully";
@@ -51,7 +51,7 @@ public class UserDao {
 		return result;
 	}
 
-	public Boolean validate(UserBean user) {
+	public static Boolean validate(UserBean user) {
 		Connection con = getConnection();
 		boolean status = false;
 		String sql = "select * from userdb.user where username =? and password = md5(?)";
@@ -69,7 +69,7 @@ public class UserDao {
 		return status;
 	}
 
-	public void saveNotes(String noteID, String noteTitle, String noteContent, String userID) {
+	public static void saveNotes(String noteID, String noteTitle, String noteContent, String userID) {
 		Connection con = getConnection();
 		String sql;
 		PreparedStatement ps;
@@ -106,7 +106,7 @@ public class UserDao {
 		}
 	}
 
-	public String getNotes(String userID) {
+	public static String getNotes(String userID) {
 		ArrayList<Note> notelist = new ArrayList<Note>();
 		Connection con = getConnection();
 		HttpSession session = ServletActionContext.getRequest().getSession(false);
@@ -139,7 +139,7 @@ public class UserDao {
 		return jsonArray.toString(0);
 	}
 	
-	public void deleteNote(String userID, String noteID) {
+	public static void deleteNote(String userID, String noteID) {
 		Connection con = getConnection();
 		try {
 			String sql = "delete userdb.notes, userdb.privilege from userdb.notes inner join userdb.privilege"
@@ -153,7 +153,7 @@ public class UserDao {
 		}
 	}
 	
-	public void clearNotes(String userID) {
+	public static void clearNotes(String userID) {
 		Connection con = getConnection();
 		try {
 			String sql = "delete userdb.notes, userdb.privilege " + " from userdb.notes inner join userdb.privilege"

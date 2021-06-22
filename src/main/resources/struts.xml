@@ -17,7 +17,7 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 			<result name="login">/login.html</result>
 		</global-results>
 		<action name="login"
-			class="com.notekeeper.controller.LoginAction" method="login">
+			class="com.notekeeper.controller.AuthAction" method="login">
 			          
 			<result name="success" type ="redirect">indexaction.action</result>
 			<result name="fail">/loginError.jsp</result>
@@ -28,13 +28,13 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 			<result name="Data entered succesfully">/accountCreated.jsp</result>
 		</action>
 		<action name="indexaction"
-			class="com.notekeeper.controller.LoginAction" method="index">
+			class="com.notekeeper.controller.AuthAction" method="index">
 			<interceptor-ref name="loginStack"/>
 			<result name="success">/WEB-INF/index.jsp</result>
 		</action>
 
 		<action name="logout"
-			class="com.notekeeper.controller.LoginAction" method="logout">
+			class="com.notekeeper.controller.AuthAction" method="logout">
 			<result name="success" type="redirect">indexaction.action</result>
 		</action>
 

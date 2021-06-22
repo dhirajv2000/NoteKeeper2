@@ -14,8 +14,7 @@ public class GetNotesAction extends ActionSupport {
 	private String id;
 	
 	public String getNotes() throws Exception {
-		UserDao ud = new UserDao();
-		dataList = ud.getNotes(id);
+		dataList = UserDao.getNotes(id);
 		JSONArray ja = new JSONArray(dataList);
 		return "SUCCESS";
 	}

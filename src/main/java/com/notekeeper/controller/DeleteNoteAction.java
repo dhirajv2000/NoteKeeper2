@@ -16,8 +16,7 @@ public class DeleteNoteAction extends ActionSupport {
 			String userID = data.get(0).getId();
 			String noteID = data.get(1).getId();
 			data.remove(0);
-			UserDao ud = new UserDao();
-			ud.deleteNote(userID, noteID);
+			UserDao.deleteNote(userID, noteID);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

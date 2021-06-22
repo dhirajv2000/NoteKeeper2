@@ -7,8 +7,7 @@ public class CreateUserAction {
 
 	public String execute() {
 		UserBean user = new UserBean(uname, password, email, phone, null);
-		UserDao ud = new UserDao();
-		ud.insert(user);
+		UserDao.insert(user);
 		return "Data entered succesfully";
 	}
 

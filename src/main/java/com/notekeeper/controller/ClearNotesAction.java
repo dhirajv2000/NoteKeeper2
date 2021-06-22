@@ -7,8 +7,7 @@ public class ClearNotesAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private String userID;
 	public String clearNotes() throws Exception {
-		UserDao ud = new UserDao();
-		ud.clearNotes(userID);
+		UserDao.clearNotes(userID);
 		return "SUCCESS";
 	}
 	public String getUserID() {

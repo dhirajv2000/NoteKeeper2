@@ -6,7 +6,7 @@ import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 import com.notekeeper.model.*;
 
-public class LoginAction implements SessionAware {
+public class AuthAction implements SessionAware {
 	private String uname, password;
 	private SessionMap<String, Object> session;
 	
@@ -25,9 +25,8 @@ public class LoginAction implements SessionAware {
 	
 	public String login() {
 		UserBean user = new UserBean(uname, password, null, null, null);
-		UserDao ud = new UserDao();
 		String result;
-		if (ud.validate(user)) {
+		if (UserDao.validate(user)) {
 			result = "success";
 			session.put("userid", user.getUserid());
 			session.put("username", user.getUname());
