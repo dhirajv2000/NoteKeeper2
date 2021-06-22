@@ -32,7 +32,7 @@ public class UserDao {
 
 	public static String insert(UserBean user) {
 		Connection con = getConnection();
-		String sql = "Insert into userdb.user values(?,?,md5(?),?,?,?)";
+		String sql = "Insert into userdb.user values(?,?,md5(?),?,?)";
 		String result = "Data entered succesfully";
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
@@ -41,7 +41,6 @@ public class UserDao {
 			ps.setString(3, user.getPassword());
 			ps.setString(4, user.getEmail());
 			ps.setString(5, user.getPhone());
-			ps.setString(6, null);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -64,6 +63,22 @@ public class UserDao {
 			user.setUserid(rs.getString(1));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
+	public static Boolean checkUserName(String value) {
+		Connection con = getConnection();
+		boolean status = false;
+		String sql = "select * from userdb.user where username =? or email=?";
+		try {
+			PreparedStatement ps  = con.prepareCall(sql);
+			ps.setString(1, value);
+			ps.setString(2, value);
+			ResultSet rs = ps.executeQuery();
+			status = rs.next();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return status;
