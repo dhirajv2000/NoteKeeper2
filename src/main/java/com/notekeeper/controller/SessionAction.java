@@ -16,12 +16,12 @@ public class SessionAction extends ActionSupport {
 		sessionDetails = new ArrayList<String>();
 		String sessionId = session.getAttribute("userid").toString();
 		String sessionUser = session.getAttribute("username").toString();
+		String sessionToken = session.getAttribute("token").toString();
 		sessionDetails.add(sessionId);
 		sessionDetails.add(sessionUser);
+		sessionDetails.add(sessionToken);
 		return "SUCCESS";
 	}
-
-
 
 	public List<String> getSessionDetails() {
 		return sessionDetails;
@@ -30,6 +30,5 @@ public class SessionAction extends ActionSupport {
 	public void setSessionDetails(List<String> sessionDetails) {
 		this.sessionDetails = sessionDetails;
 	}
-	
-	
+
 }

@@ -18,6 +18,13 @@ function generateID() {
   return Math.random().toString(36).substr(2, 6)
 }
 
+function debounce(timer, timeoutFunction){
+	clearTimeout(timer)
+    timer = setTimeout(function () {
+        timeoutFunction();
+    }, 2000)
+}
+
 
 
 

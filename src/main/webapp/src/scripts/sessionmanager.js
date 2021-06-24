@@ -6,7 +6,6 @@ function SessionManager() {
             xhr.onload = function () {
                 let sessionId = JSON.parse(this.response)
                 resolve(sessionId['sessionDetails']);
-                //resolve( sessionId['sessionId']);
             };
             xhr.onerror = reject;
             xhr.open('GET', '/NoteKeeper2/getsession.action');
@@ -15,18 +14,16 @@ function SessionManager() {
     }
 
     this.intialiseSessionDetails = function () {
-        self.fetchSessionDetails().then(function (response) {
-            sessionid = response[0];
-            sessionuser = response[1];
-            //localStorage.setItem('sessionid', sessionid)
+            sessionuser = localStorage.getItem("username");
+            sessiontoken = localStorage.getItem("sessionToken");
             document.getElementById('usernameHeader').innerHTML = "Hello, " + sessionuser;
             self.loadUserContent();
-        })
     }
 
     this.intialiseBroadcast = function () {
         document.querySelector('#logout-btn').addEventListener('click', e => {
-            location.href = '/NoteKeeper2/logout.action'
+        	localStorage.clear();
+            location.href = '/NoteKeeper2/logout.action?sessionToken='+sessiontoken;
             authChannel.postMessage({
                 action: 'logout'
             });
@@ -34,7 +31,8 @@ function SessionManager() {
 
         authChannel.onmessage = function (e) {
             if (e.data.action === 'logout') {
-                location.href = '/NoteKeeper2/logout.action'
+            	localStorage.clear();
+                location.href = '/NoteKeeper2/indexaction.action';
             }else if(e.data.action === 'update') {
                 noteControl.setNoteArray(e.data.updatedNoteArray);
             }

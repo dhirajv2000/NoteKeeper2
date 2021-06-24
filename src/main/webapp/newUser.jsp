@@ -18,4 +18,5 @@
   </form>
 </body>
   <script src="src/scripts/validation.js"></script>
+  <script src="src/scripts/utilityfunctions.js"></script>
 </html>

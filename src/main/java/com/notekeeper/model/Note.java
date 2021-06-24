@@ -7,9 +7,9 @@ public class Note {
 	private String id;
 	private String title;
 	private String content;
-	
+
 	public Note() {
-	
+
 	}
 
 	public Note(String id, String title, String content) {
@@ -41,16 +41,16 @@ public class Note {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	public JSONObject getJSONObject() {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("id", id);
-            obj.put("title", title);
-            obj.put("content", content);
-        } catch (JSONException e) {
-          e.printStackTrace();
-        }
-        return obj;
-    }
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put("id", id);
+			obj.put("title", title);
+			obj.put("content", content);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return obj;
+	}
 }

@@ -6,8 +6,8 @@ function NoteControl(noteView) {
     const grid = document.querySelector('.grid')
 
     this.loadNoteArray = function () {
-        self.getNotes().then(function (notesList) {
-            noteArray = notesList != null ? JSON.parse(notesList) : [];
+        self.getNotes().then(function (response) {
+            noteArray = response["dataList"] != null ? JSON.parse(response["dataList"]) : [];
             self.displayAll();
         })
     }
@@ -78,7 +78,8 @@ function NoteControl(noteView) {
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
         note = noteArray.find(note => note.id == clickID);
         let deletedNote = noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1);
-        self.deleteSelectedNote(deletedNote, self.displayAll)
+        self.deleteSelectedNote(deletedNote);
+        self.displayAll();
         self.updateChannel();
     }
 
@@ -102,11 +103,13 @@ function NoteControl(noteView) {
     this.clearNotes = function () {
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
         noteArray = [];
-        self.clearAllNotes(self.displayAll);
+        self.clearAllNotes().then(function(){
+        	self.displayAll();
+        });
         self.updateChannel();
     }
 
-    // returns the id of the button whic is clicked
+    // returns the id of the button which is clicked
     this.getButtonId = function (node) {
         return node.parentNode.parentNode.id;
     }

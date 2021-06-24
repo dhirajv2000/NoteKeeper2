@@ -10,22 +10,27 @@ import com.opensymphony.xwork2.ActionSupport;
 public class DeleteNoteAction extends ActionSupport {
 	private static final long serialVersionUID = -6765991741441442190L;
 	private List<Note> data;
+	private int statusCode;
 
 	public String deleteNote() {
 		try {
-			String userID = data.get(0).getId();
+			String sessionToken = data.get(0).getId();
+			if (!TokenDao.checkValidity(sessionToken)) {
+				statusCode = 401;
+				return SUCCESS;
+			}
 			String noteID = data.get(1).getId();
 			data.remove(0);
-			UserDao.deleteNote(userID, noteID);
-			
+			UserDao.deleteNote(sessionToken, noteID);
+			statusCode = 200;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
 	}
 
-	public List<Note> getData() {
-		return data;
+	public int getStatusCode() {
+		return statusCode;
 	}
 
 	public void setData(List<Note> data) {

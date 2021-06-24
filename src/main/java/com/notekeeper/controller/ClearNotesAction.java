@@ -1,20 +1,29 @@
 package com.notekeeper.controller;
 
+import com.notekeeper.model.TokenDao;
 import com.notekeeper.model.UserDao;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ClearNotesAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
-	private String userID;
+	private String sessionToken;
+	private int statusCode;
+
 	public String clearNotes() throws Exception {
-		UserDao.clearNotes(userID);
+		if (!TokenDao.checkValidity(sessionToken)) {
+			statusCode = 401;
+			return "SUCCESS";
+		}
+		UserDao.clearNotes(sessionToken);
+		statusCode = 200;
 		return "SUCCESS";
 	}
-	public String getUserID() {
-		return userID;
+
+	public void setSessionToken(String sessionToken) {
+		this.sessionToken = sessionToken;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
+
+	public int getStatusCode() {
+		return statusCode;
 	}
-	
 }

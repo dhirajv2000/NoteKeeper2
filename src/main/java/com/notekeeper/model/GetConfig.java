@@ -1,9 +1,11 @@
 package com.notekeeper.model;
+
 import java.util.Properties;
 import java.io.*;
+
 public class GetConfig {
 	private String dbUrl, dbUsername, dbPassword;
-	
+
 	public GetConfig() {
 		String filePath = "config.properties";
 		Properties props;
@@ -16,7 +18,6 @@ public class GetConfig {
 			this.dbPassword = props.getProperty("dbPassword");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("fail");
 			e.printStackTrace();
 		}
 	}
@@ -32,6 +33,5 @@ public class GetConfig {
 	public String getDbPassword() {
 		return dbPassword;
 	}
-	
-	
+
 }

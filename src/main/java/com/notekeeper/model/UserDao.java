@@ -67,13 +67,13 @@ public class UserDao {
 		}
 		return status;
 	}
-	
+
 	public static Boolean checkUserName(String value) {
 		Connection con = getConnection();
 		boolean status = false;
 		String sql = "select * from userdb.user where username =? or email=?";
 		try {
-			PreparedStatement ps  = con.prepareCall(sql);
+			PreparedStatement ps = con.prepareCall(sql);
 			ps.setString(1, value);
 			ps.setString(2, value);
 			ResultSet rs = ps.executeQuery();
@@ -84,7 +84,7 @@ public class UserDao {
 		return status;
 	}
 
-	public static void saveNotes(String noteID, String noteTitle, String noteContent, String userID) {
+	public static void saveNotes(String noteID, String noteTitle, String noteContent, String sessionToken) {
 		Connection con = getConnection();
 		String sql;
 		PreparedStatement ps;
@@ -101,17 +101,16 @@ public class UserDao {
 				ps.setString(3, noteID);
 				ps.executeUpdate();
 			} else {
-				String sql1 = "insert into userdb.notes values(?,?,?,?,now()) ";
+				String sql1 = "insert into userdb.notes values(?,?,?,now()) ";
 				PreparedStatement ps1 = con.prepareStatement(sql1);
 				ps1.setString(1, noteID);
 				ps1.setString(2, noteTitle);
 				ps1.setString(3, noteContent);
-				ps1.setString(4, userID);
 				ps1.executeUpdate();
-				String sql2 = "insert into userdb.privilege values(?,?) ";
+				String sql2 = "insert into userdb.privilege values(?,(select userid from userdb.tokens where userdb.tokens.token =?)) ";
 				PreparedStatement ps2 = con.prepareStatement(sql2);
 				ps2.setString(1, noteID);
-				ps2.setString(2, userID);
+				ps2.setString(2, sessionToken);
 				ps2.executeUpdate();
 			}
 
@@ -121,17 +120,17 @@ public class UserDao {
 		}
 	}
 
-	public static String getNotes(String userID) {
+	public static String getNotes(String sessionToken) {
 		ArrayList<Note> notelist = new ArrayList<Note>();
 		Connection con = getConnection();
 		HttpSession session = ServletActionContext.getRequest().getSession(false);
 		String sql = "Select userdb.notes.noteID, userdb.notes.noteTitle, userdb.notes.noteContent "
 				+ "from userdb.notes inner join userdb.privilege on userdb.notes.noteID = userdb.privilege.noteID  "
-				+ "where userdb.privilege.userID = ? order by userdb.notes.insertTime";
+				+ "where userdb.privilege.userID = (select userid from userdb.tokens where userdb.tokens.token =?)  order by userdb.notes.insertTime";
 		JSONArray jsonArray = new JSONArray();
 		try {
 			PreparedStatement ps = con.prepareCall(sql);
-			ps.setString(1, userID);
+			ps.setString(1, sessionToken);
 			ResultSet rs = ps.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while (rs.next()) {
@@ -153,7 +152,7 @@ public class UserDao {
 		}
 		return jsonArray.toString(0);
 	}
-	
+
 	public static void deleteNote(String userID, String noteID) {
 		Connection con = getConnection();
 		try {
@@ -167,18 +166,19 @@ public class UserDao {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void clearNotes(String userID) {
+
+	public static void clearNotes(String sessionToken) {
 		Connection con = getConnection();
 		try {
 			String sql = "delete userdb.notes, userdb.privilege " + " from userdb.notes inner join userdb.privilege"
-					+ " on userdb.notes.noteID = userdb.privilege.noteID where userdb.privilege.userID = ?";
+					+ " on userdb.notes.noteID = userdb.privilege.noteID where userdb.privilege.userID = (select userid from userdb.tokens where userdb.tokens.token =?)";
 			PreparedStatement ps = con.prepareCall(sql);
-			ps.setString(1, userID);
+			ps.setString(1, sessionToken);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 }

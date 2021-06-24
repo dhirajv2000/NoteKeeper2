@@ -40,10 +40,11 @@ function Validation() {
     this.detectUnameChange = function () {
     	unameValid= false;
         document.querySelector("#uname-validity").innerHTML = ""
-        clearTimeout(unameTimer)
+        debounce(unameTimer, self.checkUnameValidity)
+        /*clearTimeout(unameTimer)
         unameTimer = setTimeout(function () {
             self.checkUnameValidity();
-        }, 2000)
+        }, 2000)*/
     }
     
     //Password Validity Checking
@@ -74,7 +75,6 @@ function Validation() {
                     document.querySelector("#email-validity").innerHTML = "Already Exists"
                 } else {
                     emailValid = true;
-                    console.log(status['exists'])
                     document.querySelector("#email-validity").innerHTML = "Valid Email"
                 }
             };
@@ -99,10 +99,11 @@ function Validation() {
     this.detectEmailChange = function () {
     	emailValid= false;
         document.querySelector("#email-validity").innerHTML = ""
-        clearTimeout(emailTimer)
+        debounce(emailTimer, self.checkEmailValidity);
+        /*clearTimeout(emailTimer)
         emailTimer = setTimeout(function () {
             self.checkEmailValidity();
-        }, 2000)
+        }, 2000)*/
     }
     
   //Phone Validity Checking

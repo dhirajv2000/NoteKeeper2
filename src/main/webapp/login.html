@@ -1,18 +1,19 @@
 <html>
-<!-- <script type='text/javascript'>
-if(localStorage.hasOwnProperty('sessionid')){
+<script type='text/javascript'>
+if(localStorage.hasOwnProperty("sessionToken")){
 	location.href='/NoteKeeper2/index.jsp';
-}
-</script>  -->
+} 
+</script>  
   <body>
   <h1>login</h1>
   <form action="login" method="post">
     <table>
-    <tr><td>username</td><td><input type="text" name="uname"  required/></td></tr>
-    <tr><td>password</td><td><input type="password" name="password"required/></td></tr>
-    <tr><td></td><td><input type="submit" value="submit" /></td></tr>
+    <tr><td>username</td><td><input type="text" name="uname" id="uname-box" required/></td></tr>
+    <tr><td>password</td><td><input type="password" name="password" id="password-box"required/></td></tr>
+    <tr><td></td><td><input type="submit" value="submit" id ="submit-btn" /></td></tr>
     </table> 
   </form>
   <a href="newUser.jsp">Create Account</a>
   </body>
+  <script src="src/scripts/loginHandler.js"></script>
 </html>

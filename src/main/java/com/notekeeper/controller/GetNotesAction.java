@@ -5,17 +5,24 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import com.notekeeper.model.TokenDao;
 import com.notekeeper.model.UserDao;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class GetNotesAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private String dataList = null;
-	private String id;
-	
+	private String sessionToken;
+	private int statusCode;
+
 	public String getNotes() throws Exception {
-		dataList = UserDao.getNotes(id);
+		if (!TokenDao.checkValidity(sessionToken)) {
+			statusCode = 401;
+			return "SUCCESS";
+		}
+		dataList = UserDao.getNotes(sessionToken);
 		JSONArray ja = new JSONArray(dataList);
+		statusCode = 200;
 		return "SUCCESS";
 	}
 
@@ -27,9 +34,12 @@ public class GetNotesAction extends ActionSupport {
 		this.dataList = dataList;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setSessionToken(String sessionToken) {
+		this.sessionToken = sessionToken;
 	}
-	
-	
+
+	public int getStatusCode() {
+		return statusCode;
+	}
+
 }

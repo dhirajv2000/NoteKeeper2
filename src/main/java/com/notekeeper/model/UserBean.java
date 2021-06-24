@@ -7,7 +7,7 @@ public class UserBean {
 	public UserBean() {
 		super();
 	}
-	
+
 	public UserBean(String uname, String password, String email, String phone, String userid) {
 		super();
 		this.uname = uname;
@@ -24,7 +24,6 @@ public class UserBean {
 	public void setUname(String uname) {
 		this.uname = uname;
 	}
-
 
 	public String getPassword() {
 		return password;
@@ -57,5 +56,5 @@ public class UserBean {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	
+
 }

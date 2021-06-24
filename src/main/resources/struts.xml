@@ -18,8 +18,7 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 		</global-results>
 		<action name="login"
 			class="com.notekeeper.controller.AuthAction" method="login">
-			          
-			<result name="success" type ="redirect">indexaction.action</result>
+		 <result name="success">/index.jsp</result>
 			<result name="fail">/loginError.jsp</result>
 		</action>
 
@@ -30,7 +29,7 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 		<action name="indexaction"
 			class="com.notekeeper.controller.AuthAction" method="index">
 			<interceptor-ref name="loginStack"/>
-			<result name="success">/WEB-INF/index.jsp</result>
+			<result name="success">/index.jsp</result>
 		</action>
 
 		<action name="logout"
@@ -56,6 +55,11 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 		
 		<action name="clearnotes" class="com.notekeeper.controller.ClearNotesAction" method="clearNotes">
 			<result name="SUCCESS" type="json"></result>
+		</action>
+		
+		<action name="loginauth" class="com.notekeeper.controller.LoginAuth" method="execute">
+			<result name="SUCCESS" type="json"></result>
+			<result name="fail">/loginError.jsp</result>
 		</action>
 		
 		
