@@ -57,7 +57,7 @@ public class TokenDao {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			int elapsedTime = Integer.parseInt(rs.getString(1));
-			if (elapsedTime < 5) {
+			if (elapsedTime < 10000) {
 				validity = true;
 			} else {
 				tokenInvalidate(sessionToken);

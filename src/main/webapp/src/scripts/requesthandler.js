@@ -6,7 +6,7 @@ const requestHandler = {
 					let response = JSON.parse(this.response);
 					if(response.statusCode == 401){
 						localStorage.clear();
-						location.href = '/NoteKeeper2/login.html';
+						location.href = '/NoteKeeper2/loginTokenExpired.jsp';
 					} else {
 						resolve(response);
 					}
@@ -24,7 +24,7 @@ const requestHandler = {
 					let response = JSON.parse(this.response)
 					if(response.statusCode === 401){
 						localStorage.clear();
-						location.href = '/NoteKeeper2/login.html';
+						location.href = '/NoteKeeper2/loginTokenExpired.jsp';
 					}
 					};
 		        request.open("POST", url);

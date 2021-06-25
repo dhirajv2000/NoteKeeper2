@@ -18,12 +18,20 @@ function generateID() {
   return Math.random().toString(36).substr(2, 6)
 }
 
-function debounce(timer, timeoutFunction){
+/*function debounce(timer, timeoutFunction){
 	clearTimeout(timer)
     timer = setTimeout(function () {
         timeoutFunction();
     }, 2000)
-}
+}*/
+
+function debounce(func, timeout = 300){
+	  let timer;
+	  return (...args) => {
+	    clearTimeout(timer);
+	    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+	  };
+	}
 
 
 

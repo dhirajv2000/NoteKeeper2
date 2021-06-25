@@ -17,6 +17,7 @@
     </table> 
   </form>
 </body>
-  <script src="src/scripts/validation.js"></script>
   <script src="src/scripts/utilityfunctions.js"></script>
+  <script src="src/scripts/requesthandler.js"></script>
+  <script src="src/scripts/validation.js"></script>
 </html>
