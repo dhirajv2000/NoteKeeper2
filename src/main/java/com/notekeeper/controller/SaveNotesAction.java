@@ -26,6 +26,7 @@ public class SaveNotesAction extends ActionSupport {
 				noteID = data.get(i).getId();
 				noteTitle = data.get(i).getTitle();
 				noteContent = data.get(i).getContent();
+				if(noteContent.replaceAll("\\<.*?\\>", "").length() > 240) continue;
 				UserDao.saveNotes(noteID, noteTitle, noteContent, sessionToken);
 			}
 			statusCode = 200;

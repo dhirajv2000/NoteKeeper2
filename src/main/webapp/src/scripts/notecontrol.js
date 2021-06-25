@@ -152,7 +152,18 @@ function NoteControl(noteView) {
 
         let deleteButton = wrapper.querySelector('#delete-btn')
         deleteButton.addEventListener('click', self.deleteNote)
-
+        
+        let contentBox = wrapper.querySelector('.note-content');
+        
+        contentBox.addEventListener('keydown', function(e){
+        	if(e.keyCode != 8 && contentBox.innerText.length >= 240)
+            {
+        	   e.preventDefault();
+               e.stopPropagation();
+               return false;
+            }
+        })
+        
         wrapper.addEventListener('input', self.detectChange)
 
     }
