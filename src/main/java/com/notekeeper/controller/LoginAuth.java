@@ -13,19 +13,23 @@ public class LoginAuth extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private String sessionToken = null;
 	private String uname, password;
-
+	private int statusCode;
 	public String execute() throws Exception {
 		UserBean user = new UserBean(uname, password, null, null, null);
 		String result;
 		String token = GetUUID.getUUID();
 		if (UserDao.validate(user)) {
-			result = "SUCCESS";
 			TokenDao.tokenMap(user.getUserid(), token);
 			sessionToken = token;
+			statusCode = 200;
 		} else {
-			result = "fail";
+			statusCode = 403;
 		}
-		return result;
+		return "SUCCESS";
+	}
+	
+	public int getStatusCode() {
+		return statusCode;
 	}
 
 	public String getSessionToken() {

@@ -59,7 +59,6 @@ Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 		
 		<action name="loginauth" class="com.notekeeper.controller.LoginAuth" method="execute">
 			<result name="SUCCESS" type="json"></result>
-			<result name="fail">/loginError.jsp</result>
 		</action>
 		
 		

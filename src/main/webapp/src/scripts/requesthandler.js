@@ -7,7 +7,10 @@ const requestHandler = {
 					if(response.statusCode == 401){
 						localStorage.clear();
 						location.href = '/NoteKeeper2/loginTokenExpired.jsp';
-					} else {
+					} else if(response.statusCode == 403){
+						location.href = '/NoteKeeper2/loginError.jsp'
+					}
+					else{
 						resolve(response);
 					}
 					};
