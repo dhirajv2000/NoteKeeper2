@@ -25,11 +25,6 @@ sessionManager.intialiseBroadcast();
 //Adding Event listeners
 document.querySelector('#add-btn').addEventListener('click', noteControl.addNewNote)
 document.querySelector('#clear-btn').addEventListener('click', noteControl.clearNotes)
-document.querySelector('#save-btn').addEventListener('click', noteControl.saveAll)
-//document.addEventListener('DOMContentLoaded', noteControl.displayAll)
-//document.addEventListener('DOMContentLoaded', fetchSessionId);
-
-
 
 document.addEventListener('keydown', function (e) {
     if (e.ctrlKey && e.key === 's') {

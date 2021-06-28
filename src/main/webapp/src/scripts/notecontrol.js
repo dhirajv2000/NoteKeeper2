@@ -157,10 +157,7 @@ function NoteControl(noteView) {
         
         contentBox.addEventListener('keydown', function(e){
         	if(e.keyCode != 8 && contentBox.innerText.length >= 240)
-            {
-        	   e.preventDefault();
-               e.stopPropagation();
-               return false;
+            { e.preventDefault();
             }
         })
         
