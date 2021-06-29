@@ -1,7 +1,5 @@
+//Performs login authentication and token generation
 package com.notekeeper.controller;
-
-import java.util.List;
-import java.util.ArrayList;
 
 import com.notekeeper.model.GetUUID;
 import com.notekeeper.model.TokenDao;
@@ -9,14 +7,14 @@ import com.notekeeper.model.UserBean;
 import com.notekeeper.model.UserDao;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class LoginAuth extends ActionSupport {
+public class LoginAuthAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private String sessionToken = null;
 	private String uname, password;
 	private int statusCode;
+
 	public String execute() throws Exception {
 		UserBean user = new UserBean(uname, password, null, null, null);
-		String result;
 		String token = GetUUID.getUUID();
 		if (UserDao.validate(user)) {
 			TokenDao.tokenMap(user.getUserid(), token);
@@ -27,7 +25,7 @@ public class LoginAuth extends ActionSupport {
 		}
 		return "SUCCESS";
 	}
-	
+
 	public int getStatusCode() {
 		return statusCode;
 	}

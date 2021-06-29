@@ -1,3 +1,4 @@
+//Class for maintaining tokens and verifying validity
 package com.notekeeper.model;
 
 import java.sql.Connection;

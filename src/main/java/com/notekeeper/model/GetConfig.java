@@ -1,3 +1,4 @@
+//Reads database configuration from properties file
 package com.notekeeper.model;
 
 import java.util.Properties;

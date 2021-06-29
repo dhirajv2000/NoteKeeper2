@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +17,8 @@
 </head>
 
 <body>
-    <h1 id="usernameHeader">Hello, <s:property value="uname" /> !!</h1>
+    <h1 id="usernameHeader">Hello,
+        <s:property value="uname" /> !!</h1>
     <span><button class="button1 button4" id='add-btn' style="margin-top: 50px;">New Note</button></span>
     <span><button class="button1 button4" id='clear-btn' style="margin-top: 50px;">Clear All</button></span>
     <span><button class="button1 button4" id='logout-btn' style="margin-top: 50px;">Logout</button></span>
@@ -25,8 +27,8 @@
     <script src="src/scripts/requesthandler.js"></script>
     <script src="src/scripts/storagemanager.js"></script>
     <script src="src/scripts/utilityfunctions.js"></script>
+    <script src="src/scripts/max-length.js"></script>
     <script src="src/scripts/sessionmanager.js"></script>
-    <script src="src/scripts/createnote.js"></script>
     <script src="src/scripts/noteview.js"></script>
     <script src="src/scripts/notecontrol.js"></script>
     <script src="src/scripts/main.js"></script>

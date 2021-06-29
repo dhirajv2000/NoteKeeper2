@@ -1,3 +1,4 @@
+//Deletes note recived from client
 package com.notekeeper.controller;
 
 import java.util.List;

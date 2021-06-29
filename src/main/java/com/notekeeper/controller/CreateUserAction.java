@@ -1,3 +1,4 @@
+//Creates a new user from create user page
 package com.notekeeper.controller;
 
 import com.notekeeper.model.*;

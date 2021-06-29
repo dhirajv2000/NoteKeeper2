@@ -1,9 +1,5 @@
+//Retrieves notes from database for rendering on browser
 package com.notekeeper.controller;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
 
 import com.notekeeper.model.TokenDao;
 import com.notekeeper.model.UserDao;
@@ -21,7 +17,6 @@ public class GetNotesAction extends ActionSupport {
 			return "SUCCESS";
 		}
 		dataList = UserDao.getNotes(sessionToken);
-		JSONArray ja = new JSONArray(dataList);
 		statusCode = 200;
 		return "SUCCESS";
 	}

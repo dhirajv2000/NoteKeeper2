@@ -1,10 +1,7 @@
+//Saves notes recieved in the payload
 package com.notekeeper.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.json.*;
-
 import com.notekeeper.model.*;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -26,7 +23,8 @@ public class SaveNotesAction extends ActionSupport {
 				noteID = data.get(i).getId();
 				noteTitle = data.get(i).getTitle();
 				noteContent = data.get(i).getContent();
-				if(noteContent.replaceAll("\\<.*?\\>", "").length() > 240) continue;
+				if (noteContent.replaceAll("\\<.*?\\>", "").length() > 240)
+					continue;
 				UserDao.saveNotes(noteID, noteTitle, noteContent, sessionToken);
 			}
 			statusCode = 200;

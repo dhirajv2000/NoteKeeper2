@@ -1,3 +1,4 @@
+//Clears all the user's notes in database
 package com.notekeeper.controller;
 
 import com.notekeeper.model.TokenDao;

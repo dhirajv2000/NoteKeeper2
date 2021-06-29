@@ -4,7 +4,8 @@ function NoteControl(noteView) {
     let clickID, noteContent, noteTitle, note, timer = null,
         noteArray, updateArray =[];
     const grid = document.querySelector('.grid')
-
+    
+    //Loads note array on startup
     this.loadNoteArray = function () {
         self.getNotes().then(function (response) {
             noteArray = response["dataList"] != null ? JSON.parse(response["dataList"]) : [];
@@ -12,11 +13,13 @@ function NoteControl(noteView) {
         })
     }
     
+    //Handles updated note array from another tab
     this.setNoteArray = function (updatedNoteArray) {
     	noteArray = Object.assign([], updatedNoteArray);
     	self.displayAll();
     }
     
+    //Broadcasting updates to tabs in the channel
     this.updateChannel = function () {
     	 let channelObj = {
              	action: 'update',
@@ -25,6 +28,7 @@ function NoteControl(noteView) {
          channelObj.updatedNoteArray = noteArray;
          authChannel.postMessage(channelObj);
     }
+    
     // Adds a new note to local storage
     this.addNewNote = function () {
         let note = new CreateNote(generateID());
@@ -38,7 +42,7 @@ function NoteControl(noteView) {
 
     // Displays the note on the page
     this.renderNote = function (note) {
-        let tempelate = getTemplate();
+        let tempelate = noteView.getTemplate();
         const wrapper = document.createElement('div');
         wrapper.setAttribute('id', note.id);
         wrapper.setAttribute('class', 'note-wrapper');
@@ -74,7 +78,7 @@ function NoteControl(noteView) {
 
     // Deletes a note and updates local storage
     this.deleteNote = function () {
-        clickID = self.getButtonId(this);
+        clickID = noteView.getButtonId(this);
         if (!confirm('Are you sure you want to delete? Notes once deleted cannot be undone.')) return;
         note = noteArray.find(note => note.id == clickID);
         let deletedNote = noteArray.splice(noteArray.findIndex(obj => obj.id === note.id), 1);
@@ -109,19 +113,11 @@ function NoteControl(noteView) {
         self.updateChannel();
     }
 
-    // returns the id of the button which is clicked
-    this.getButtonId = function (node) {
-        return node.parentNode.parentNode.id;
-    }
-
     // Detects changes and updates the note
-    this.detectChange = function () {
-        clearTimeout(timer)
-        timer = setTimeout(function () {
-            self.saveAll();
-        }, 3000)
-    }
-
+    this.detectChange = debounce(() => {
+        self.saveAll()
+    }, 2000);
+   
     // appends event listeners to a new note object
     this.appendListeners = function (wrapper) {
 
@@ -155,11 +151,7 @@ function NoteControl(noteView) {
         
         let contentBox = wrapper.querySelector('.note-content');
         
-        contentBox.addEventListener('keydown', function(e){
-        	if(e.keyCode != 8 && contentBox.innerText.length >= 240)
-            { e.preventDefault();
-            }
-        })
+        contentBox.addEventListener('keydown', maxLength)
         
         wrapper.addEventListener('input', self.detectChange)
 

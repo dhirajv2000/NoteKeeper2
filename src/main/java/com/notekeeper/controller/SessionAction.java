@@ -1,3 +1,4 @@
+//Provides details about the session to client
 package com.notekeeper.controller;
 
 import java.util.List;

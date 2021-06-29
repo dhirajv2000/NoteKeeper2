@@ -1,3 +1,4 @@
+//Performs crud operations on db
 package com.notekeeper.model;
 
 import java.sql.Connection;

@@ -7,21 +7,23 @@ function NoteView() {
     this.getButtonId = function (node) {
         return node.parentNode.parentNode.id;
     }
-
-    //Clears Placeholder
-    this.clearPlaceholder = function () {
-        clickID = this.parentNode.id;
-        noteArray = self.getStorage();
-        note = noteArray.find(note => note.id == clickID);
-        if (note.title == '') {
-            document.getElementById(clickID).querySelector('.note-title').innerHTML = '';
-        }
-    }
-
-    this.addPlaceholder = function () {
-        if (this.innerHTML == "")
-            this.innerHTML = "Title goes here"
-    }
+    
+    //Returns note template
+    this.getTemplate = function() {
+    	  return tempelate = `
+    	    <div class = 'note-header'>
+    	      <button id='delete-btn'><i class="fas fa-times"></i></button>
+    	    </div>
+    	    <div class = 'note-title' contenteditable="true" data-placeholder = "Title Goes here"></div>
+    	    <div class = 'note-content'contenteditable="true"  data-placeholder = "Content Goes here"></div>
+    	    <div class="note-btns">
+    	    <button  id ='bold-btn'><i class="fas fa-bold"></i></button>
+    	    <button  id ='italic-btn'><i class="fas fa-italic"></i></button>
+    	    <button  id ='underline-btn'><i class="fas fa-underline"></i></button>
+    	    <button  id ='strike-btn'><i class="fas fa-strikethrough"></i></button>
+    	    </div>
+    	    `;
+    	}
 
     //Change font
     this.changeFont = function () {

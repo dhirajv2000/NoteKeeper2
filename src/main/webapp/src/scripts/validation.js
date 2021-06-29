@@ -1,7 +1,6 @@
+//Perfroms validation on user sign up
 function Validation() {
-    let unameTimer = null,
-        emailTimer = null,
-        unameValid, passwordValid, emailValid, phoneValid;
+    let unameValid, passwordValid, emailValid, phoneValid;
     const self = this;
 
     // Username Validity Checking
@@ -21,7 +20,7 @@ function Validation() {
     }
 
     this.checkUnameValidity = function () {
-    	unameValid = false;
+        unameValid = false;
         document.querySelector("#uname-validity").innerHTML = ""
         let username = document.querySelector("#uname-box").value;
         const regex = /^[a-z0-9_@-]{6,16}$/igm.exec(username);
@@ -32,8 +31,10 @@ function Validation() {
             document.querySelector("#uname-validity").innerHTML = "Invalid Username"
         }
     }
-    
-    this.detectUnameChange = debounce(()=>{self.checkUnameValidity()},2000);
+
+    this.detectUnameChange = debounce(() => {
+        self.checkUnameValidity()
+    }, 2000);
 
     // Password Validity Checking
     this.checkPasswordValidity = function () {
@@ -70,7 +71,7 @@ function Validation() {
     }
 
     this.checkEmailValidity = function () {
-    	emailValid = false;
+        emailValid = false;
         document.querySelector("#email-validity").innerHTML = ""
         let email = document.querySelector("#email-box").value;
         const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -83,8 +84,10 @@ function Validation() {
         }
     }
 
-    this.detectEmailChange = debounce(() => {self.checkEmailValidity()}, 2000)
- 
+    this.detectEmailChange = debounce(() => {
+        self.checkEmailValidity()
+    }, 2000)
+
     // Phone Validity Checking
     this.checkPhoneValidity = function () {
         let password = document.querySelector("#phone-box").value;

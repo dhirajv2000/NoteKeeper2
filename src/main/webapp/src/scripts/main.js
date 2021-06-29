@@ -1,6 +1,6 @@
 NoteView.prototype = Object.create(StorageManager.prototype);
 NoteView.prototype.constructor = NoteView;
-//creating instance of NoteControl
+//creating instance of NoteView
 const noteView = new NoteView;
 
 
